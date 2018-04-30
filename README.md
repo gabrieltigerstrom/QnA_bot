@@ -42,4 +42,14 @@ bugs. Setting up docker and running the hello world takes 30 minutes at most.
 [This page](https://docs.docker.com/get-started/part2/) was very helpful in
 explaining how to write Dockerfiles and how to run containers.
 
-
+## Elasticsearch
+[Here's](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html) an explanation on how to install Elasticsearch via docker.
+First one needs to get the docker image:
+```
+docker pull docker.elastic.co/elasticsearch/elasticsearch:6.2.4
+```
+Then Elsasticsearch can be run with the following command:
+```
+docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:6.2.4
+```
+To see if the installation was successful go to `http://localhost:9200` where you should be able to see some JSON output from Elasticsearch.
