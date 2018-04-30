@@ -43,8 +43,12 @@ bugs. Setting up docker and running the hello world takes 30 minutes at most.
 explaining how to write Dockerfiles and how to run containers.
 
 ## Elasticsearch
-To get elasticserch up and running install docker-compose and issue the command:
+To get Elasticsearch up and running install docker-compose and issue the command:
 ```
 docker-compose up
 ```
-in the root of the project (where the docker-compose-yml file is).
+in the root of the project (where the docker-compose.yml file is).  This brings
+up a Elasticsearch server on the user-defined bridged network `qna_bot_esnet`.
+In order to reach the Elasticsearch container from another container, connect
+the container to the above mentioned network and the address to the
+Elasticsearch server is simply `elasticsearch`.
