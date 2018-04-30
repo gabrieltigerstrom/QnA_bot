@@ -48,15 +48,3 @@ To get elasticserch up and running install docker-compose and issue the command:
 docker-compose up
 ```
 in the root of the project (where the docker-compose-yml file is).
-
-
-~~[Here's](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html) an explanation on how to install Elasticsearch via docker.
-First one needs to get the docker image:
-```
-docker pull docker.elastic.co/elasticsearch/elasticsearch:6.2.4
-```
-Then Elsasticsearch can be run with the following command:
-```
-docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:6.2.4
-```
-To see if the installation was successful go to `http://localhost:9200` where you should be able to see some JSON output from Elasticsearch.~~
