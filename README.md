@@ -25,13 +25,16 @@ An interesting extension is to try to devise a scoring function that determines
 how sure the system is of the answer .
 
 ## Project structure
-[indexer](indexer/) contains the part that reads raw data and puts it in
+[indexer/](indexer/) contains the part that reads raw data and puts it in
 elasticsearch.
-[server](server/) contains the actual searcher, it also contains
+
+[server/](server/) contains the actual searcher, it also contains
 some form of http-server in order to be able to communicate with the client.
-[client](client/) contains the front-end that connects to the server and
+
+[client/](client/) contains the front-end that connects to the server and
 displays the answer to a given question.
-[report](report/) contains the report (for now written in LaTeX)
+
+[report/](report/) contains the report (for now written in LaTeX)
 
 ## Docker
 Docker should be able to help us run things without getting weird dependency
