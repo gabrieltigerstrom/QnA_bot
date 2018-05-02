@@ -44,7 +44,7 @@ explaining how to write Dockerfiles and how to run containers.
 
 ## Compile
 To compile with docker-compose one can issue the command `docker-compose build
-_packagename_`.  In order to build everything just leave out the package name.
+`_`packagename`_.  In order to build everything just leave out the package name.
 
 ## Elasticsearch
 To get Elasticsearch up and running install docker-compose and issue the command:
