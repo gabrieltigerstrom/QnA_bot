@@ -43,8 +43,7 @@ bugs. Setting up docker and running the hello world takes 30 minutes at most.
 explaining how to write Dockerfiles and how to run containers.
 
 ## Compile
-To compile with docker-compose one can issue the command `docker-compose build
-`_`packagename`_.  In order to build everything just leave out the package name.
+To compile with docker-compose one can issue the command `docker-compose build <packagename>`.  In order to build everything just leave out the package name.
 
 ## Elasticsearch
 To get Elasticsearch up and running install docker-compose and issue the command:
