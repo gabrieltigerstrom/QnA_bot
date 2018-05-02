@@ -42,10 +42,14 @@ bugs. Setting up docker and running the hello world takes 30 minutes at most.
 [This page](https://docs.docker.com/get-started/part2/) was very helpful in
 explaining how to write Dockerfiles and how to run containers.
 
+## Compile
+To compile with docker-compose one can issue the command `docker-compose build
+_packagename_`.  In order to build everything just leave out the package name.
+
 ## Elasticsearch
 To get Elasticsearch up and running install docker-compose and issue the command:
 ```
-docker-compose start
+docker-compose start elasticsearch
 ```
 in the root of the project (where the docker-compose.yml file is).  This brings
 up a Elasticsearch server on the user-defined bridged network `qna_bot_esnet`.
@@ -54,4 +58,13 @@ the container to the above mentioned network and the address to the
 Elasticsearch server is simply `elasticsearch`.
 
 Note: The `start` command might not work first time running the docker-compose,
-in that case try `docker-compose up`.
+in that case try `docker-compose up -d elasticsearch`.
+
+## Run indexer
+To run indexer, make sure that Elasticsearch container is running.  This can be
+done by issuing `docker ps -a`.
+
+To run the indexer simply issue `docker-compose run --rm indexer < infile`
+where `infile` is the file you would like to pipe into indexer (if that is what
+you want). Note the `--rm` this flag is present so that docker does not create
+one container per execution but removes it after indexer has shut down.
