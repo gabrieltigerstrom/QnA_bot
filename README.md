@@ -50,20 +50,18 @@ To get Elasticsearch up and running install docker-compose and issue the command
 ```
 docker-compose start elasticsearch
 ```
-in the root of the project (where the docker-compose.yml file is).  This brings
-up a Elasticsearch server on the user-defined bridged network `qna_bot_esnet`.
-In order to reach the Elasticsearch container from another container, connect
-the container to the above mentioned network and the address to the
-Elasticsearch server is simply `elasticsearch`.
+in the root of the project (where the docker-compose.yml file is).
 
 Note: The `start` command might not work first time running the docker-compose,
 in that case try `docker-compose up -d elasticsearch`.
 
 ## Run indexer
 To run indexer, make sure that Elasticsearch container is running.  This can be
-done by issuing `docker ps -a`.
+done by issuing `docker ps`.
 
-To run the indexer simply issue `docker-compose run --rm indexer < infile`
-where `infile` is the file you would like to pipe into indexer (if that is what
-you want). Note the `--rm` this flag is present so that docker does not create
+To index questions from the file `resources/Questions.csv` run `docker-compose run --rm indexer q`
+
+To index answers from the file `resources/Answers.csv `run `docker-compose run --rm indexer a`
+
+Note the `--rm` this flag is present so that docker does not create
 one container per execution but removes it after indexer has shut down.

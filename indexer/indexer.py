@@ -13,13 +13,16 @@ def addQuestion(question, es):
     title = str(question[5])
     body = str(question[6])
     json_body = json.dumps({"title": title, "score" : score ,"body" : body})
+    #print(json_body)
     es.index(index='stackoverflow', doc_type='questions', id=id, body=json_body)
 
-def addAnswer(anwer, es):
-    return
-def addTag(tag, es):
-    return
-    
+def addAnswer(answer, es):
+    id = int(answer[0])
+    score = int(answer[4])
+    body = str(answer[5])
+    json_body = json.dumps({"score" : score ,"body" : body})
+    #print(json_body)
+    es.index(index='stackoverflow', doc_type='answers', id=id, body=json_body)
 
 # Read from command line if we're parsing questions, answers or tags
 questions = False
@@ -38,11 +41,11 @@ else:
 
 # Select which file to read
 if questions:
-    file = open("resources/Questions.csv", "r")
+    file = open("resources/Questions.csv", "r", encoding="ISO-8859-1")
 elif answers:
-    file = open("resources/Answers.csv", "r")
+    file = open("resources/Answers.csv", "r", encoding="ISO-8859-1")
 else:
-    file = open("resources/Tags.csv", "r")
+    file = open("resources/Tags.csv", "r", encoding="ISO-8859-1")
 
 # Connect to elasticsearch
 es = Elasticsearch([{'host': 'elasticsearch', 'port': 9200}])
@@ -58,7 +61,7 @@ for i, row in enumerate(reader):
         # Skip the first line
         continue
     if i % 100 is 0:
-        print("Added",i, "questions")
+        print("Added",i, "questions" if questions else "answers")
     if questions:
         addQuestion(row, es)
     elif answers:
