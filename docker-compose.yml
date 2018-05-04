@@ -17,11 +17,21 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - esdata:/usr/share/elasticsearch/data
+      - ./esdata:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
     networks:
       - esnet
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.2.4
+    #volumes:
+    #  - ./kibana.yml:/usr/share/kibana/config/kibana.yml
+    ports:
+      - "5601:5601"
+    networks:
+      - esnet
+    depends_on:
+      - elasticsearch
   indexer:
     build: ./indexer/
     container_name: indexer
@@ -30,9 +40,9 @@ services:
     depends_on:
       elasticsearch:
           condition: service_healthy
-    command: ["python", "indexer.py"]
-volumes:
-    esdata:
-        driver: local
+    #command: ["python", "indexer.py"]
+    entrypoint: ["python", "indexer.py"]
+    volumes:
+      - ./resources:/app/resources
 networks:
     esnet:
