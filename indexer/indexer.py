@@ -12,7 +12,7 @@ def addQuestion(question, es):
     score = int(question[4])
     title = str(question[5])
     body = str(question[6])
-    json_body = json.dumps({"id" : id, "title": title, "score" : score ,"body" : body})
+    json_body = json.dumps({"title": title, "score" : score ,"body" : body})
     es.index(index='stackoverflow', doc_type='questions', id=id, body=json_body)
 
 def addAnswer(anwer, es):
