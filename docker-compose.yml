@@ -42,5 +42,17 @@ services:
     entrypoint: ["python", "indexer.py"]
     volumes:
       - ./resources:/app/resources
+  server:
+    build: ./server/
+    container_name: server
+    networks:
+      - esnet
+    depends_on:
+      elasticsearch:
+          condition: service_healthy
+    #command: ["python", "indexer.py"]
+    entrypoint: ["python",]
+    volumes:
+      - ./resources:/app/resources
 networks:
     esnet:
