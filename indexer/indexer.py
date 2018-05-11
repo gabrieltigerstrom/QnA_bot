@@ -1,77 +1,75 @@
-#!/usr/bin/env python3
-import sys
-import os
-import csv
 import json
-from datetime import datetime
+import argparse
+import os
+from tqdm import tqdm
 from elasticsearch import Elasticsearch
+from itertools import islice
 
-# addQuestion takes a row represented as an array and adds it to elasticsearch
-def addQuestion(question, es):
-    id = int(question[0])
-    score = int(question[4])
-    title = str(question[5])
-    body = str(question[6])
-    json_body = json.dumps({"title": title, "score" : score ,"body" : body})
-    #print(json_body)
-    es.index(index='stackoverflow', doc_type='questions', id=id, body=json_body)
+def process_question(qu):
+    """
+    Preprocessing the question before indexing
 
-def addAnswer(answer, es):
-    id = int(answer[0])
-    score = int(answer[4])
-    body = str(answer[5])
-    json_body = json.dumps({"score" : score ,"body" : body})
-    #print(json_body)
-    es.index(index='stackoverflow', doc_type='answers', id=id, body=json_body)
+    qu: dict. contains body,title,score... check the json file
+    """
 
-# Read from command line if we're parsing questions, answers or tags
-questions = False
-answers = False
-tags = False
-print('Argument List:', str(sys.argv))
-if sys.argv[1] is "q":
-    questions = True
-elif sys.argv[1] is "a":
-    answers = True
-elif sys.argv[1] is "t":
-    tags = True
-else:
-    raise RuntimeError("Wrong parameter to program")
-    sys.exit(1)
+    ## global ranking
+    rank_info = {}
+    rank_info_k = ["viewcount","score","favoritecount"]
+    for k in rank_info_k:
+        rank_info[k] = int(qu[k])
+        qu.pop(k,None)
 
-# Select which file to read
-if questions:
-    file = open("resources/Questions.csv", "r", encoding="ISO-8859-1")
-elif answers:
-    file = open("resources/Answers.csv", "r", encoding="ISO-8859-1")
-else:
-    file = open("resources/Tags.csv", "r", encoding="ISO-8859-1")
+    rank_info["creationdate"] = qu["creationdate"]
 
-# Connect to elasticsearch
-es = Elasticsearch([{'host': 'elasticsearch', 'port': 9200}])
-if not es.ping():
-    raise ValueError("Connection failed")
-else:
-    print("Connection estabished!")
-
-# Use the CSV reader to easily parse the content of the file
-reader = csv.reader(file, delimiter=',')
-for i, row in enumerate(reader):
-    if i == 0:
-        # Skip the first line
-        continue
-    if i % 100 is 0:
-        print("Added",i, "questions" if questions else "answers")
-    if questions:
-        addQuestion(row, es)
-    elif answers:
-        addAnswer(row, es)
+    if qu["acceptedanswer"]:
+        qu["acceptedanswer"] = list(qu["acceptedanswer"])
     else:
-        print("Not supported yet!")
-        break
-file.close()
+        qu["acceptedanswer"] = []
 
+    qu.pop('comments',None) # discard comments, maybe add back later
+    qu["rank_info"] = rank_info
 
+    return qu
 
+def process_answer(ans):
+    """
+    Preprocessing the answer before indexing
+
+    ans: dict. contains body, parentid ,userid ,score... check the json file
+    """
+
+    #TODO: check whether need type coversion?
+    ans['parentid'] = int(ans['parentid'])
+    ## I remain comments here, maybe can do some sentiment analysis to evaluate score of answer
+    return ans
     
 
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(prog='indexer.py',
+            description='Index related subforums')
+    parser.add_argument('forum',type=str)
+    parser.add_argument('doc_type',type=str,choices=['answers','questions'])
+    parser.add_argument('--mark',default='main',type=str,help='for DEBUG')
+
+    args = parser.parse_args()
+    data_path = "resources/{}".format(args.forum)
+
+    with open('{}/{forum}_{doc_type}.json'.format(data_path,**vars(args))) as fin:
+        data = json.load(fin)
+        if args.doc_type == 'answers':
+            data = {k:process_answer(v) for k,v in data.items()}
+        else:
+            data = {k:process_question(v) for k,v in data.items()}
+
+    # Start ES engine
+    es = Elasticsearch([{'host': 'elasticsearch', 'port': 9200}])
+    if not es.ping():
+        raise ValueError("[ERROR] Connection failed")
+    else:
+        print("[INFO] Connection estabished!")
+
+    for k in tqdm(data):
+        # print("[INFO] {} {doc_type} have been processed into {forum}".format(i,**vars(args)))
+        res = es.index(index=args.forum+'_'+args.doc_type+"_"+args.mark,doc_type=args.doc_type,id=int(k),body=data[k])
+
+    es.indices.refresh(index=args.forum+'_'+args.doc_type+"_" + args.mark)

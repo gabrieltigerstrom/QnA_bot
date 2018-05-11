@@ -65,3 +65,7 @@ To index answers from the file `resources/Answers.csv `run `docker-compose run -
 
 Note the `--rm` this flag is present so that docker does not create
 one container per execution but removes it after indexer has shut down.
+
+
+## Data
+Please download [cquadstack](http://nlp.cis.unimelb.edu.au/resources/cqadupstack/), put the uncompressed to resources (see the indexer.py, and you'll know what I mean)

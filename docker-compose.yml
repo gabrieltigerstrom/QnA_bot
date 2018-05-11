@@ -10,6 +10,7 @@ services:
       retries: 3
     environment:
       - cluster.name=docker-cluster
+      - xpack.security.enabled=false
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
@@ -38,7 +39,6 @@ services:
     depends_on:
       elasticsearch:
           condition: service_healthy
-    #command: ["python", "indexer.py"]
     entrypoint: ["python", "indexer.py"]
     volumes:
       - ./resources:/app/resources
@@ -50,8 +50,7 @@ services:
     depends_on:
       elasticsearch:
           condition: service_healthy
-    #command: ["python", "indexer.py"]
-    entrypoint: ["python",]
+    entrypoint: ["python"]
     volumes:
       - ./resources:/app/resources
 networks:

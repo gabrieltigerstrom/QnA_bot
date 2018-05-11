@@ -1,2 +1,5 @@
 # Indexer
-The building and running is done with docker-compose see the README.md in the root.
+**Note:** Remember the csquaddata, see README.md in the root
+
+## How to run
+`docker-compose run --rm indexer <forums> <questions> --mark [self label]`
