@@ -21,14 +21,14 @@ if __name__ == "__main__":
 
     connections.create_connection(hosts=['elasticsearch'])
 
+    index = '{forum}_{doc_type}_{mark}'.format(**vars(args))
     with open('{}/{forum}_{doc_type}.json'.format(data_path,**vars(args))) as fin:
         data = json.load(fin)
         # data = dict((k,data[k]) for k in ('110556','17796','89379') if k in data)
         if args.doc_type == 'answers':
-            Answer.init()
+            Answer.init(index=index)
         else:
-            Question.init()
-    index = '{forum}_{doc_type}_{mark}'.format(**vars(args))
+            Question.init(index=index)
 
     if args.doc_type == 'answers':
         for k in tqdm(data):

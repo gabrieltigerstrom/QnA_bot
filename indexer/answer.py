@@ -8,10 +8,6 @@ class Answer(DocType):
     parentid = Integer() # back to corresponding question
     creationdate = Date()
 
-    ## will always be overwritten, but needed to add here
-    class Meta:
-        index='answers'
-
     def save(self,**kwargs):
         return super().save(**kwargs)
 

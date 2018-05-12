@@ -13,16 +13,13 @@ class Question(DocType):
     tags = Keyword()
     userid = Integer()
     related = Integer()
-    dup = Integer()
-    #TODO: how to add list type? ( The following seems correct ,maybe
+    # There is no special mapping required for arrays.
+    # Any field can contain zero, one, or more values, 
+    # in the same way as a full-text field is analyzed to produce multiple terms.
     acceptedAnswer = Integer()
     answers = Integer()
     creationdate = Date()
     body = Text(analyzer = html_strip)
-
-    ## will always be overwritten, but needed to add here
-    class Meta:
-        index='questions'
 
     def save(self,**kwargs):
         return super().save(** kwargs)
