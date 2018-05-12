@@ -1,6 +1,7 @@
 import json
 import argparse
 import os
+import random
 from tqdm import tqdm
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl.connections import connections
@@ -15,16 +16,21 @@ if __name__ == "__main__":
     parser.add_argument('forum',type=str)
     parser.add_argument('doc_type',type=str,choices=['answers','questions'])
     parser.add_argument('--mark',default='main',type=str,help='for DEBUG')
+    parser.add_argument('--size',type=int,help='for sub-test')
 
     args = parser.parse_args()
     data_path = "resources/{}".format(args.forum)
+    random.seed(101)
 
     connections.create_connection(hosts=['elasticsearch'])
 
     index = '{forum}_{doc_type}_{mark}'.format(**vars(args))
     with open('{}/{forum}_{doc_type}.json'.format(data_path,**vars(args))) as fin:
         data = json.load(fin)
-        # data = dict((k,data[k]) for k in ('110556','17796','89379') if k in data)
+        if args.size is not None:
+            chose_idx = random.sample(list(data.keys()),args.size)
+            data = dict((k,data[k]) for k in chose_idx)
+
         if args.doc_type == 'answers':
             Answer.init(index=index)
         else:
