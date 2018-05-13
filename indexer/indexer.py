@@ -1,77 +1,45 @@
-#!/usr/bin/env python3
-import sys
-import os
-import csv
 import json
-from datetime import datetime
-from elasticsearch import Elasticsearch
+import argparse
+import os
+import random
+from tqdm import tqdm
+from elasticsearch_dsl.connections import connections
+from itertools import islice
+from answer import *
+from question import *
 
-# addQuestion takes a row represented as an array and adds it to elasticsearch
-def addQuestion(question, es):
-    id = int(question[0])
-    score = int(question[4])
-    title = str(question[5])
-    body = str(question[6])
-    json_body = json.dumps({"title": title, "score" : score ,"body" : body})
-    #print(json_body)
-    es.index(index='stackoverflow', doc_type='questions', id=id, body=json_body)
+if __name__ == "__main__":
 
-def addAnswer(answer, es):
-    id = int(answer[0])
-    score = int(answer[4])
-    body = str(answer[5])
-    json_body = json.dumps({"score" : score ,"body" : body})
-    #print(json_body)
-    es.index(index='stackoverflow', doc_type='answers', id=id, body=json_body)
+    parser = argparse.ArgumentParser(prog='indexer.py',
+            description='Index related subforums')
+    parser.add_argument('forum',type=str)
+    parser.add_argument('doc_type',type=str,choices=['answers','questions'])
+    parser.add_argument('--mark',default='main',type=str,help='for DEBUG')
+    parser.add_argument('--size',type=int,help='for sub-test')
 
-# Read from command line if we're parsing questions, answers or tags
-questions = False
-answers = False
-tags = False
-print('Argument List:', str(sys.argv))
-if sys.argv[1] is "q":
-    questions = True
-elif sys.argv[1] is "a":
-    answers = True
-elif sys.argv[1] is "t":
-    tags = True
-else:
-    raise RuntimeError("Wrong parameter to program")
-    sys.exit(1)
+    args = parser.parse_args()
+    data_path = "resources/{}".format(args.forum)
+    random.seed(101)
 
-# Select which file to read
-if questions:
-    file = open("resources/Questions.csv", "r", encoding="ISO-8859-1")
-elif answers:
-    file = open("resources/Answers.csv", "r", encoding="ISO-8859-1")
-else:
-    file = open("resources/Tags.csv", "r", encoding="ISO-8859-1")
+    connections.create_connection(hosts=['elasticsearch'])
 
-# Connect to elasticsearch
-es = Elasticsearch([{'host': 'elasticsearch', 'port': 9200}])
-if not es.ping():
-    raise ValueError("Connection failed")
-else:
-    print("Connection estabished!")
+    index = '{forum}_{doc_type}_{mark}'.format(**vars(args))
+    with open('{}/{forum}_{doc_type}.json'.format(data_path,**vars(args))) as fin:
+        data = json.load(fin)
+        if args.size is not None:
+            chose_idx = random.sample(list(data.keys()),args.size)
+            data = dict((k,data[k]) for k in chose_idx)
 
-# Use the CSV reader to easily parse the content of the file
-reader = csv.reader(file, delimiter=',')
-for i, row in enumerate(reader):
-    if i == 0:
-        # Skip the first line
-        continue
-    if i % 100 is 0:
-        print("Added",i, "questions" if questions else "answers")
-    if questions:
-        addQuestion(row, es)
-    elif answers:
-        addAnswer(row, es)
+        if args.doc_type == 'answers':
+            Answer.init(index=index)
+        else:
+            Question.init(index=index)
+
+    if args.doc_type == 'answers':
+        for k in tqdm(data):
+            process_answer(k,data[k],index)
+        Answer._doc_type.refresh()
     else:
-        print("Not supported yet!")
-        break
-file.close()
-
-
-
-    
-
+        for k in tqdm(data):
+            process_question(k,data[k],index)
+        Question._doc_type.refresh()
