@@ -68,7 +68,7 @@ def find_similar_query(qu,client,index,max_size=10):
                                'acceptedAnswer':hit.acceptedAnswer,
                                'answers': hit.answers,
                                'favoritecnt':hit.favoritecnt,
-                               'score':hit.score
+                               'score':hit.score,
                                'sim_score':hit.meta.score,
                                })
         except AttributeError: # discard those queries w/o answer

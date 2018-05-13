@@ -16,7 +16,7 @@ if __name__ == "__main__":
     parser.add_argument('--max_size',type=int,default=10,help="at most return that number of q")
     parser.add_argument('--mark',default='main',type=str,help='for DEBUG')
 
-    args = parser.parsea_args()
+    args = parser.parse_args()
     index = '{forum}_{doc_type}_{mark}'.format(**vars(args))
     
     # connections.create_connection(hosts=['elasticsearch'])
