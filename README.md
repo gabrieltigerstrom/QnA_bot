@@ -69,3 +69,6 @@ one container per execution but removes it after indexer has shut down.
 
 ## Data
 Please download [cquadstack](http://nlp.cis.unimelb.edu.au/resources/cqadupstack/), put the uncompressed to resources (see the indexer.py, and you'll know what I mean)
+
+## Reference
+* [Supervised Learning of Universal Sentence Representations](https://arxiv.org/pdf/1705.02364.pdf)

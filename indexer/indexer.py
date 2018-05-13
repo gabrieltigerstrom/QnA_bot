@@ -3,7 +3,6 @@ import argparse
 import os
 import random
 from tqdm import tqdm
-from elasticsearch import Elasticsearch
 from elasticsearch_dsl.connections import connections
 from itertools import islice
 from answer import *
