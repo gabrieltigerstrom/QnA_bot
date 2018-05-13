@@ -71,15 +71,15 @@ def process_question(k,q,index):
     q_obj = Question(
         title=q['title'],
         tags=q['tags'],
-        userid=int(q['userid']),
-        related=q['related'],
+        userid= q['userid'] if q['userid'] else None,
+        related=q['related'] if len(q['related']) else None,
         viewcnt=q['viewcount'],
-        dup = q['dups'],
+        dup = q['dups'] if len(q['dups']) else None,
         score=q['score'],
         favoritecnt=q['favoritecount'],
         creationdate=q['creationdate'],
         body = q['body'],
-        answers = q['answers'],
+        answers = q['answers'] if len(q['answers']) else None,
         acceptedAnswer = q['acceptedanswer'] if q['acceptedanswer'] else None
     )
     # q_obj.rankinfo = RankInfo(viewcnt=q['viewcount'],score=q['score'],favoritecnt=q['favoritecount'])
