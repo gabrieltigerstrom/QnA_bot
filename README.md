@@ -71,5 +71,18 @@ Note the `--rm` this flag is present so that docker does not create one containe
 ## Data
 Please download [CQADupStack](http://nlp.cis.unimelb.edu.au/resources/cqadupstack/), put the uncompressed to resources (see the indexer.py, and you'll know what I mean)
 
+
+## TODO (some idea)
+* Use topic model (trained offline) to decide the probability over all forums that the query might
+belong in, and search those forums which probability > threshold (but need to
+index all 14 forums first, which might take roughly 3 hr)
+
+* Well-design the query in `find_similar_query()`
+* Use link\_analysis like `PageRank` to give global score of each user(id),
+  consider this to our question ranking
+* Discard comment at the moment, maybe they are useful?
+
 ## Reference
+* [Scripts](https://github.com/D1Doris/CQADupStack) for querying CQADupStack
+  data
 * [Supervised Learning of Universal Sentence Representations](https://arxiv.org/pdf/1705.02364.pdf)
