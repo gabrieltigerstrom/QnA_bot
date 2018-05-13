@@ -1,0 +1,12 @@
+## deprecated code
+# s= s.query({
+   # "more_like_this":{
+      # "fields":[
+         # "body",
+      # ],
+      # "like":"release pokemon",
+      # "min_term_freq":1,
+      # "max_query_terms":12
+   # }
+# })
+

@@ -1,4 +1,8 @@
-# Q&A Bot
+Q&A Bot
+====
+
+## Project Description
+
 From project description:
 
 There are so many forums out there where people answer each other’s questions.
@@ -59,16 +63,13 @@ in that case try `docker-compose up -d elasticsearch`.
 To run indexer, make sure that Elasticsearch container is running.  This can be
 done by issuing `docker ps`.
 
-To index questions from the file `resources/Questions.csv` run `docker-compose run --rm indexer q`
+To index, check `docker-compose run --rm indexer --help`
 
-To index answers from the file `resources/Answers.csv `run `docker-compose run --rm indexer a`
-
-Note the `--rm` this flag is present so that docker does not create
-one container per execution but removes it after indexer has shut down.
+Note the `--rm` this flag is present so that docker does not create one container per execution but removes it after indexer has shut down.
 
 
 ## Data
-Please download [cquadstack](http://nlp.cis.unimelb.edu.au/resources/cqadupstack/), put the uncompressed to resources (see the indexer.py, and you'll know what I mean)
+Please download [CQADupStack](http://nlp.cis.unimelb.edu.au/resources/cqadupstack/), put the uncompressed to resources (see the indexer.py, and you'll know what I mean)
 
 ## Reference
 * [Supervised Learning of Universal Sentence Representations](https://arxiv.org/pdf/1705.02364.pdf)
