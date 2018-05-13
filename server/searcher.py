@@ -15,21 +15,16 @@ if __name__ == "__main__":
     parser.add_argument('query',type=str)
     parser.add_argument('--max_size',type=int,default=10,help="at most return that number of q")
     parser.add_argument('--mark',default='main',type=str,help='for DEBUG')
+    parser.add_argument('--local',action='store_true',help='for local test')
 
     args = parser.parse_args()
     index = '{forum}_{doc_type}_{mark}'.format(**vars(args))
     
-    # connections.create_connection(hosts=['elasticsearch'])
-
-    # The following is for local testing w/o running docker
-    # (won't build again and again ^^")
-    # es = Elasticsearch([{'host': 'localhost'}])
-    es = Elasticsearch([{'host': 'elasticsearch'}])
-    if not es.ping():
-        raise ValueError("Connection failed")
+    if args.local:
+        connections.create_connection(hosts=['localhost'])
     else:
-        print("[INFO] Connection estabished!")
+        connections.create_connection(hosts=['elasticsearch'])
 
-    similar_queires = find_similar_query(args.query,es,index,args.max_size)
+    similar_queires = find_similar_query(args.query,connections.get_connection(),index,args.max_size)
     for q in similar_queires:
         print(q['sim_score'])
