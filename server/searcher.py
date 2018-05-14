@@ -2,6 +2,7 @@ import argparse
 import os
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl.connections import connections
+from elasticsearch_dsl.query import Match
 from elasticsearch_dsl import Search
 from sent_sim import *
 # import nltk
@@ -18,13 +19,21 @@ if __name__ == "__main__":
     parser.add_argument('--local',action='store_true',help='for local test')
 
     args = parser.parse_args()
-    index = '{forum}_{doc_type}_{mark}'.format(**vars(args))
+    q_index = '{forum}_{doc_type}_{mark}'.format(**vars(args))
+    a_index = '{forum}_answers_{mark}'.format(**vars(args))
     
     if args.local:
         connections.create_connection(hosts=['localhost'])
     else:
         connections.create_connection(hosts=['elasticsearch'])
 
-    similar_queires = find_similar_query(args.query,connections.get_connection(),index,args.max_size)
+    similar_queires = find_similar_query(args.query,connections.get_connection(),q_index,args.max_size)
     for q in similar_queires:
-        print(q['sim_score'])
+        if q['acceptedAnswer'] is not None:
+            # s = Search(using=connections.get_connection(),index=a_index).query("match",id=int(q['acceptedAnswer']))
+            s = Search(using=connections.get_connection(),index=a_index).query(Match(_id=int(q['acceptedAnswer'])))
+            res = s.execute()
+            # print(vars(res))
+            print(res['hits']['hits'][0]['_source']['body'])
+            exit()
+            # print(int(q['acceptedAnswer'][0]))
