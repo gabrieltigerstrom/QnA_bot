@@ -31,13 +31,16 @@ class QueryHandler(BaseHTTPRequestHandler):
     def search(self, query, forum):
         q_index = '{}_questions_main'.format(forum)
         a_index = '{}_answers_main'.format(forum)
-        similar_queries = find_similar_query(query,ESConnection,q_index,1)
-        if similar_queries[0]['acceptedAnswer'] is not None:
-            s = Search(using=ESConnection,index=a_index).query(Match(_id=int(similar_queries[0]['acceptedAnswer'])))
-            res = s.execute()
-            return res['hits']['hits'][0]['_source']['body']
-        else:
-            return None
+        similar_queries = find_similar_query(query,ESConnection,q_index,5)
+        
+        results = []
+        for q in similar_queries:
+            if q['acceptedAnswer'] is not None:
+                s = Search(using=ESConnection,index=a_index).query(Match(_id=int(q['acceptedAnswer'])))
+                res = s.execute()
+                results.append(res['hits']['hits'][0]['_source']['body'])
+        return results
+
 
 if __name__ == '__main__':
     connections.create_connection(hosts=['elasticsearch'])

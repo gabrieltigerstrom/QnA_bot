@@ -3,9 +3,27 @@
 }
 
 /* Style the search field */
+
+h1, h2, h3, h4, h5, h6, input{
+	font-family: 'Roboto', sans-serif;
+}
+p, li, th, td, em{
+	/**text-align: justify;**/
+	line-height: 1.8em;
+	padding: 0 0 1em 0;
+	font-weight: normal;
+	word-spacing: 0.09em;
+	font-family: 'Roboto', sans-serif;
+}
+
+
+form#searchform{
+	margin-top: 2em;
+}
+
 form#searchform input[type=text] {
   padding: 10px;
-  font-size: 17px;
+  font-size: 1em;
   border: 1px solid grey;
   float: left;
   width: 80%;
@@ -16,17 +34,17 @@ form#searchform input[type=text] {
 form#searchform button {
   float: left;
   width: 20%;
-  padding: 10px;
-  background: #2196F3;
+  padding: 0.7em;
+  background: #46B29D;
   color: white;
-  font-size: 17px;
+  font-size: 1em;
   border: 1px solid grey;
   border-left: none; /* Prevent double borders */
   cursor: pointer;
 }
 
 form#searchform button:hover {
-  background: #0b7dda;
+  background: #A2D8CE;
 }
 
 /* Clear floats */
@@ -34,4 +52,54 @@ form#searchform::after {
   content: "";
   clear: both;
   display: table;
+}
+
+:focus {
+    outline:none;
+}
+::-moz-focus-inner {
+    border:0;
+}
+input[type=range]::-moz-focus-outer {
+    border: 0;
+}
+
+main{
+	width: 80%;
+	margin: 0 auto;
+}
+
+#result{
+	margin-top:2em;
+	max-width:100%;
+	overflow:hidden;
+}
+#result *{
+	max-width:100%;
+	width:100%;
+}
+
+#paging button{
+	float: left;
+	width: 50%;
+	padding: 0.7em;
+	background: #46B29D;
+	color: white;
+	font-size: 1em;
+	border: 1px solid grey;
+	border-left: none; /* Prevent double borders */
+	cursor: pointer;
+}
+
+#paging button:hover {
+  background: #A2D8CE;
+}
+#paging button:disabled, button[disabled]{
+  background-color: #cccccc;
+  color: #666666;
+}
+#paging::after {
+    content: "";
+    clear: both;
+    display: table;
 }
