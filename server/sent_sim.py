@@ -1,6 +1,7 @@
 from elasticsearch_dsl import Search
 from elasticsearch_dsl.query import Bool, Range, MultiMatch, FunctionScore, Exists,Match
 from elasticsearch_dsl.function import FieldValueFactor,ScriptScore
+from ranker import rank
 
 # The following is for outside semantic analyzer, refer to all_requirements
 # import numpy as np
@@ -64,6 +65,7 @@ def find_similar_query(qu,client,index,max_size=10):
     for hit in res:
         try:
             candidates.append({'title':hit.title,
+                               'tags':hit.tags,
                                # 'id':int(hit.meta.id),
                                'acceptedAnswer':hit.acceptedAnswer,
                                'answers': hit.answers,
@@ -73,6 +75,8 @@ def find_similar_query(qu,client,index,max_size=10):
                                })
         except AttributeError: # discard those queries w/o answer
             continue
+
+    rank(candidates, qu)
 
     if len(candidates) == 0:
         print("[INFO] No matching")

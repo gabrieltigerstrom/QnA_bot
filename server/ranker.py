@@ -1,7 +1,12 @@
+from operator import itemgetter
 
 
 
-
+keyword_match = 10
+accepted_bonus = 10
+cosine_multiplier = 2
+upvote_multiplier = 0.1
+queryscore_multiplier = 0.5
 
 """
     input:
@@ -11,7 +16,27 @@
         ranked_list: A list of the input entries sorted after their relevance score
 """
 def rank(input, query):
-    return 0
+
+    #print(keywords)
+    #print("Unsorted:")
+    for entry in input:
+        #print(entry['title'])
+        #print(entry['score'])
+        entry['score'] = calculate_score(entry, query)
+
+    
+
+    input.sort(key=itemgetter('score'), reverse=True)
+
+    """
+    print("\nSorted:")
+    for entry in input:
+        print(entry['title'])
+        print(entry['score'])
+    """
+
+
+    return input
 
 
     
@@ -29,10 +54,43 @@ def rank(input, query):
 
 """
 def calculate_score(entry, query):
+    score = 0
+
+    keywords = query.lower().split()
+    title_vector = entry['title'].lower().split()
+
+    cosine = 0
+
     
+    for key in keywords:
+        # Add score for each tag that matches a keyword
+        for tag in entry['tags']:
+            tag = tag.lower()
+            if key in tag:
+                score += keyword_match
 
-    return 0
+        # Simple nestled for loops for cosine dot product
+        for title_word in title_vector:
+            if key in title_word:
+                cosine += 1
 
+    # Cosine score
+    cosine /= len(keywords) + len(title_vector)
+
+    score += cosine * cosine_multiplier
+
+    # Bonus if the question had an accepted answer
+    if entry['acceptedAnswer']:
+        score += accepted_bonus
+
+
+    # Add upvote scores and elasticsearch's query-score
+    score += entry['score'] * upvote_multiplier
+
+    score += entry['sim_score'] * queryscore_multiplier
+
+
+    return score
 
 
 
