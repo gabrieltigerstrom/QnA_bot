@@ -16,24 +16,21 @@ queryscore_multiplier = 0.5
         ranked_list: A list of the input entries sorted after their relevance score
 """
 def rank(input, query):
-
-    #print(keywords)
-    #print("Unsorted:")
+    print("Retrieved: " + str(len(input)))
+    
     for entry in input:
-        #print(entry['title'])
-        #print(entry['score'])
         entry['score'] = calculate_score(entry, query)
 
     
 
     input.sort(key=itemgetter('score'), reverse=True)
 
-    """
-    print("\nSorted:")
+    
+    #print("\nSorted:")
     for entry in input:
         print(entry['title'])
-        print(entry['score'])
-    """
+        #print(entry['score'])
+    
 
 
     return input

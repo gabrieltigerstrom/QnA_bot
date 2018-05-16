@@ -1,0 +1,25 @@
+With the assumption that there are a total of 10 relevant answers in the database. 
+The toal retrieved is always 10. 
+
+how to get shiny pokemon
+precision:
+recall: 
+f1-score:
+
+
+how to win against zerg
+precision:
+recall: 
+f1-score:
+
+
+dark souls farm humanity
+precision:
+recall: 
+f1-score:
+
+
+stacrafft teran
+precision:
+recall: 
+f1-score:
