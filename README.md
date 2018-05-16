@@ -1,6 +1,18 @@
 Q&A Bot
 ====
 
+## How to run
+1. Install docker and docker-compose
+2. Download the data files from [here](http://nlp.cis.unimelb.edu.au/resources/cqadupstack/cqadupstack.tar.gz) and un-tar it.
+3. Unzip the "gaming" zip-file and place it in resources so that the path is
+   like `resources/gaming/<all the json-files>`
+3. Run Elasticsearch by issuing `docker-compose up -d elasticsearch`
+4. Build all the packages by issuing `docker-compose build`
+5. Index the questions by issuing `docker-compose run --rm indexer gaming answers`
+6. Index the questions by issuing `docker-compose run --rm indexer gaming questions`
+7. Run the server by issuing `docker-compose up -d server`
+8. Open the html-client (client/index.html) in a web-browser and search for something.
+
 ## Project Description
 
 From project description:
