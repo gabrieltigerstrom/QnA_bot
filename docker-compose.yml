@@ -52,7 +52,7 @@ services:
     depends_on:
       elasticsearch:
           condition: service_healthy
-    entrypoint: ["python"]
+    entrypoint: ["python", "server.py"]
     volumes:
       - ./resources:/app/resources
 networks:
