@@ -80,6 +80,7 @@ header{
 main{
 	width: 80%;
 	margin: 0 auto;
+	padding-bottom:2em;
 }
 
 #result{
@@ -104,8 +105,10 @@ main{
 	color: white;
 	font-size: 1em;
 	border: 1px solid grey;
-	border-left: none; /* Prevent double borders */
 	cursor: pointer;
+}
+#paging button:first-of-type{
+	border-right: none; /* Prevent double borders */
 }
 
 #paging button:hover {
