@@ -64,6 +64,10 @@ input[type=range]::-moz-focus-outer {
     border: 0;
 }
 
+header{
+	width: 80%;
+	margin: 0 auto;
+}
 main{
 	width: 80%;
 	margin: 0 auto;
