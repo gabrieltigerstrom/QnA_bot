@@ -16,6 +16,15 @@ p, li, th, td, em{
 	font-family: 'Roboto', sans-serif;
 }
 
+::selection {
+  background: #46B29D;
+  color:white;
+}
+::-moz-selection {
+  background: #46B29D;
+  color:white;
+}
+
 
 form#searchform{
 	margin-top: 2em;
