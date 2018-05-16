@@ -53,10 +53,10 @@ $( "#searchform" ).submit(function( event ) {
 				$("#previous_answer").prop('disabled', true);
 				$("#next_answer").prop('disabled', true);
 			}
-			console.log( "Got results" );
 		})
 		.fail(function() {
 			console.log( "Error" );
+			document.getElementById('result').innerHTML = "<h2>Error, could not connect to server</h2>";
 		})
 		.always(function() {
 			//var spinner = document.createElement("i");
