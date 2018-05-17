@@ -38,7 +38,7 @@ class QueryHandler(BaseHTTPRequestHandler):
             if q['acceptedAnswer'] is not None:
                 s = Search(using=ESConnection,index=a_index).query(Match(_id=int(q['acceptedAnswer'])))
                 res = s.execute()
-                results.append(res['hits']['hits'][0]['_source']['body'])
+                results.append((q['title'], res['hits']['hits'][0]['_source']['body']))
         return results
 
 

@@ -1,10 +1,15 @@
 var currentData;
 var answer_number;
 
+function setResultData(data) {
+	document.getElementById('resultTitle').innerHTML = data[0];
+	document.getElementById('result').innerHTML = data[1];
+}
+
 $("#next_answer").click(function() {
 	if (answer_number < currentData.length){
 		answer_number++;
-		document.getElementById('result').innerHTML = currentData[answer_number];
+		setResultData(currentData[answer_number]);
 		$("#previous_answer").prop('disabled', false);
 		if(answer_number == currentData.length-1){
 			$("#next_answer").prop('disabled', true);
@@ -14,7 +19,7 @@ $("#next_answer").click(function() {
 $("#previous_answer").click(function() {
 	if (answer_number > 0){
 		answer_number--;
-		document.getElementById('result').innerHTML = currentData[answer_number];
+		setResultData(currentData[answer_number]);
 		$("#next_answer").prop('disabled', false);
 		if(answer_number == 0){
 			$("#previous_answer").prop('disabled', true);
@@ -34,7 +39,7 @@ $( "#searchform" ).submit(function( event ) {
 			currentData = data.answer;
 			//TODO: Check that data contains an answer
 			if(currentData.length > 0){
-				document.getElementById('result').innerHTML = currentData[0];
+				setResultData(currentData[0]);
 				answer_number = 0;
 				$("#previous_answer").prop('hidden', false);
 				$("#next_answer").prop('hidden', false);
@@ -46,7 +51,7 @@ $( "#searchform" ).submit(function( event ) {
 					$("#next_answer").prop('disabled', false);
 				}
 			} else {
-				document.getElementById('result').innerHTML = "<h2>No results</h2>";
+				setResultData(["No results", ""]);
 				answer_number = 0;
 				$("#previous_answer").prop('hidden', true);
 				$("#next_answer").prop('hidden', true);
@@ -56,7 +61,7 @@ $( "#searchform" ).submit(function( event ) {
 		})
 		.fail(function() {
 			console.log( "Error" );
-			document.getElementById('result').innerHTML = "<h2>Error, could not connect to server</h2>";
+			setResultData(["Error: could not connect to server", ""]);
 		})
 		.always(function() {
 			//var spinner = document.createElement("i");
