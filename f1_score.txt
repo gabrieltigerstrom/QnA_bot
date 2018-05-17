@@ -4,15 +4,15 @@ The toal retrieved is always 10.
 how to get shiny pokemon:
 
 1 Does a shiny pokemon stay shiny after evolution?
-1 Can PokéTransporter make a Pokémon shiny?
 1 How do I catch a "shiny" Pokemon
 1 Can my starter Pokemon be shiny?
 0 How do you find the glitch Pokemon MissingNo in Pokemon Red/Blue?
 0 Other than appearance, what is the difference between regular Pokemon and "shiny" Pokemon?
 0 Pokemon: Gotta catch 'em all, but how to get started?
 0 What advantage do I get by evolving my Pokemon?
+0 In Pokemon Red/Blue, can you buy the bike before you get the voucher?
 1 How does my Trainer ID effect shiny Pokemon?
-0 What are the differences between Pokemon X and Pokemon Y?
+1 Were shiny Ditto more likely to produce shiny offspring?
 
 precision: 0.5
 recall: 0.5
@@ -25,16 +25,16 @@ how to win against zerg:
 0 How do I Macro effectively as Zerg?
 0 What build order should I use for Zerg in StarCraft 2?
 1 How do you protect against Zerg and marine rush as Protoss?
-1 Are Immortals useful against any Zerg unit?
 0 Importance of Zerglings to Zerg armies
 0 Zerg strategy against Void Rays in SC2
+0 How can I protect my buildings against creepers?
 0 How do you win against the superiority of NPC Lords?
 0 How to win the machete proving grounds?
 0 What is "graveyard zerging" or "death zerging"?
 
-precision: 0.3
-recall: 0.3
-f1-score: 0.3
+precision: 0.2
+recall: 0.2
+f1-score: 0.2
 
 
 dark souls farm humanity:
@@ -46,13 +46,13 @@ dark souls farm humanity:
 0 What are the advantages and disadvantages of being in human form?
 0 Are there multiple endings to Dark Souls?
 0 Are Dark Souls 2 player ghosts realtime?
-0 Is soul farming necessary in Dark Souls?
+1 How do I farm Human Effigies?
 0 Are there humans in Zelda?
 0 Can I farm soul hearts from Larry Jr?
 
-precision: 0.1
-recall: 0.1
-f1-score: 0.1
+precision: 0.2
+recall: 0.2
+f1-score: 0.2
 
 
 stacrafft teran:

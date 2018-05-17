@@ -44,7 +44,8 @@ def find_similar_query(qu,client,index,max_size=10):
     q3 = Exists(field="acceptedAnswer", boost=0.5)
 
     # We must both filter positive scores and match the query
-    q = Bool(must=q1, filter=q2, should=q3)
+    # q = Bool(must=q1, filter=q2, should=q3)
+    q = Bool(must=q1, filter=[q2,q3])
 
     # Also allow the engine to return suggestions using both the title and the body.
     # In the future, we could use one of them to propose to the user
