@@ -1,6 +1,10 @@
 Q&A Bot
 ====
 
+## Install Docker
+The project is based on docker. So in order to run it, one must install it.
+Here are descriptions for installing Docker on [Mac](https://docs.docker.com/docker-for-mac/), [Linux](https://docs.docker.com/install/linux/docker-ce/ubuntu/) and [Windows](https://docs.docker.com/docker-for-windows/).
+
 ## How to run
 1. Install docker and docker-compose
 2. Download the data files from [here](http://nlp.cis.unimelb.edu.au/resources/cqadupstack/cqadupstack.tar.gz) and un-tar it.
